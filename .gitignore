@@ -1,0 +1,15 @@
+.idea
+.vscode
+.DS_Store
+_env/.database
+
+docker-compose.yaml
+!_env/dev/docker-compose.yaml
+
+_local/
+node_modules/
+
+task.pdf
+
+*.local
+*.ai.md

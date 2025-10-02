@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  server:
+    image: dev_env:server
+    container_name: server
+    ports:
+      - "80:80"
+    volumes:
+      - ./_env/dev/server/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./api:/api:ro
+    networks:
+      - lab08_task-internal
+    depends_on:
+      - api
+  api:
+    image: dev_env:php_84
+    container_name: api
+    volumes:
+      - ./api:/app
+    networks:
+      - lab08_task-internal
+  cache:
+    image: redis:7-alpine
+    container_name: cache
+    networks:
+      - lab08_task-internal
+
+
+networks:
+  lab08_task-internal:
+    driver: bridge
+
