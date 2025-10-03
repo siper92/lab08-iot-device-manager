@@ -12,3 +12,8 @@ cp _env/dev/docker-compose.yaml docker-compose.yaml
 ```bash
 docker-compose up -d
 ```
+
+4. Access the API container
+```bash
+docker-compose exec -it api bash
+```

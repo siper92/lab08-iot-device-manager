@@ -13,3 +13,4 @@ task.pdf
 
 *.local
 *.ai.md
+ai.*.md
