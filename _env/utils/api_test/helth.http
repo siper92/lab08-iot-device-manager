@@ -1,3 +1,4 @@
-GET http://localhost/api
+GET http://localhost/api/up?test=234
 Content-Type: application/json
+Accept: application/json
 ###

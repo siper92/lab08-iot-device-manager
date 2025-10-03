@@ -5,6 +5,11 @@
 docker-compose up -d
 ```
 
+## Restart containers
+```bash
+docker-compose restart
+```
+
 ## Install composer dependencies
 ```bash
 docker exec -it api composer install

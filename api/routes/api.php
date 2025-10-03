@@ -6,16 +6,6 @@ use App\Http\Controllers\Api\MeasurementController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application.
-|
-*/
-
-// User Management Routes
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::post('/', [UserController::class, 'store']);
@@ -35,23 +25,18 @@ Route::prefix('users')->group(function () {
     Route::delete('/{userId}/devices/{deviceId}/detach', [DeviceController::class, 'detachFromUser']);
 });
 
-// Device Management Routes
 Route::prefix('devices')->group(function () {
     Route::get('/', [DeviceController::class, 'index']);
     Route::post('/', [DeviceController::class, 'store']);
     Route::get('/{id}', [DeviceController::class, 'show']);
     Route::delete('/{id}', [DeviceController::class, 'destroy']);
-
-    // Device measurements
     Route::get('/{deviceId}/measurements', [MeasurementController::class, 'getDeviceMeasurements']);
 });
 
-// Measurement Routes
 Route::prefix('measurements')->group(function () {
     Route::post('/', [MeasurementController::class, 'store']);
 });
 
-// Alert Routes
 Route::prefix('alerts')->group(function () {
     Route::post('/{alertId}/mark-read', [AlertController::class, 'markAsRead']);
 });
