@@ -10,6 +10,11 @@ docker-compose up -d
 docker-compose restart
 ```
 
+## SSH into the api container
+```bash
+docker exec -it api bash
+``` 
+
 ## Install composer dependencies
 ```bash
 docker exec -it api composer install

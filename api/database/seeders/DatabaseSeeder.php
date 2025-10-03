@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Device;
 use App\Models\UserDevice;
 use App\Models\DeviceMeasurement;
+use App\Models\SystemAdmin;
 use App\Enums\MeasureType;
 use App\Services\AlertProcessorService;
 use Illuminate\Database\Seeder;
@@ -21,6 +22,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        SystemAdmin::create([
+            'email' => 'admin@lab08.test',
+            'password' => Hash::make('admin123'),
+        ]);
+        $this->command->info('System Admin Credentials:');
+        $this->command->info('- Email: admin@lab08.test');
+        $this->command->info('- Password: admin123');
+        $this->command->info('');
+
         $devices=[];
         $users=[];
         for ($i = 0; $i < self::MAX_DEVICES; $i++) {
@@ -34,6 +44,10 @@ class DatabaseSeeder extends Seeder
                 'email' => "test{$i}@lab08.test",
                 'password' => Hash::make('password-'.$i),
             ]);
+            $this->command->info("User {$i} Credentials:");
+            $this->command->info("- Email: test{$i}@lab08.test");
+            $this->command->info("- Password: password-{$i}");
+            $this->command->info('');
         }
 
         // devices per user
@@ -56,11 +70,11 @@ class DatabaseSeeder extends Seeder
         $alertProcessor = app(AlertProcessorService::class);
 
         $measureData = [
-            0 => [22.5, 23.1, 21.8, 24.2, 22.9], // User 1 - Device 1
-            1 => [28.5, 31.2, 35.8, 33.1, 29.5], // User 1 - Device 2
-            2 => [18.3, 15.7, -2.5, -5.1, 12.4], // User 2 - Device 3
-            3 => [20.0, 20.1, 19.9, 20.0, 20.2], // User 2 - Device 4
-            4 => [-18.5, -20.2, -19.8, -21.1, -19.3], // User 3 - Device 5
+            0 => [22.5, 23.1, 21.8, 24.2, 22.9],  // Normal temperature readings
+            1 => [28.5, 31.2, 35.8, 33.1, 29.5],  // High temperature readings (alerts)
+            2 => [18.3, 15.7, -2.5, -5.1, 12.4],  // Low temperature readings (alerts)
+            3 => [20.0, 20.1, 19.9, 20.0, 20.2], // Stable temperature readings
+            4 => [-18.5, -20.2, -19.8, -21.1, -19.3], // Very low temperature readings (alerts)
             5 => [23.5, 32.8, 16.2, 20.1, -19.7], // Recent measurements (last 24 hours)
             6 => [24.1, 30.5, -1.2, 19.8, -20.1], // Most recent measurements
             7 => [21.0, 29.9, 0.0, 25.5, -10.0], // Additional varied data
@@ -74,12 +88,8 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->command->info('Seeding completed successfully!');
-        $this->command->info('Created 3 users, 5 devices, 5 device attachments, and 35 measurements with alerts.');
+        $this->command->info('Created 1 system admin, 3 users, 8 devices, device attachments, and measurements with alerts.');
         $this->command->info('');
-        $this->command->info('User Credentials (password for all: password):');
-        $this->command->info('- john.smith@example.com');
-        $this->command->info('- jane.doe@example.com');
-        $this->command->info('- bob.johnson@example.com');
     }
 
     /**
