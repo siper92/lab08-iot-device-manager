@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   server:
     image: dev_env:server
@@ -19,11 +18,26 @@ services:
       - ./api:/app
     networks:
       - lab08_task-internal
+    depends_on:
+      - cache
+      - db
   cache:
     image: redis:7-alpine
     container_name: cache
     networks:
       - lab08_task-internal
+  db:
+    image: mysql:8
+    container_name: db
+    volumes:
+      - ./_env/.database:/var/lib/mysql
+    networks:
+      - lab08_task-internal
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: lab08
+      MYSQL_USER: lab08
+      MYSQL_PASSWORD: lab08
 
 
 networks:

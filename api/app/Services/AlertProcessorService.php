@@ -37,6 +37,16 @@ class AlertProcessorService
         $this->rules[] = $rule;
     }
 
+    public function processMeasurement(DeviceMeasurement $measurement): void
+    {
+        $deviceId = $measurement->device_id;
+        $data = $measurement->data;
+
+        Log::debug("[AlertProcessorService] Measurement $deviceId: " . json_encode($measurement));
+
+        $this->checkAndCreateAlerts($deviceId, $data ?? [], $measurement->id);
+    }
+
     /**
      * Check and create alerts for a device measurement.
      *

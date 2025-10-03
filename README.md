@@ -17,3 +17,5 @@ docker-compose up -d
 ```bash
 docker-compose exec -it api bash
 ```
+
+5. Project utils commands can be found in commands.md file
