@@ -5,6 +5,39 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $device_id
+ * @property string $alert_type
+ * @property string $message
+ * @property int|null $measurement_id
+ * @property string $severity
+ * @property \Illuminate\Support\Carbon $triggered_at
+ * @property bool $is_read
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Device $device
+ * @property-read \App\Models\DeviceMeasurement|null $measurement
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert ofType(string $type)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert unread()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereAlertType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereDeviceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereIsRead($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereMeasurementId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereMessage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereSeverity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereTriggeredAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Alert extends Model
 {
     use HasFactory;

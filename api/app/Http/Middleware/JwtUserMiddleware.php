@@ -32,7 +32,7 @@ class JwtUserMiddleware
 
         $userId = $request->route('userId');
         if ($userId && $payload->sub != $userId) {
-            return response()->json(['error' => 'Forbidden'], 403);
+            return response()->json(['error' => 'forbidden...'], 403);
         }
 
         $request->attributes->set('user_id', $payload->sub);

@@ -6,6 +6,30 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $device_id
+ * @property string $access_token
+ * @property \Illuminate\Support\Carbon $attached_at
+ * @property \Illuminate\Support\Carbon|null $detached_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Device $device
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDevice newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDevice newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDevice query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDevice whereAccessToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDevice whereAttachedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDevice whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDevice whereDetachedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDevice whereDeviceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDevice whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDevice whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDevice whereUserId($value)
+ * @mixin \Eloquent
+ */
 class UserDevice extends Model
 {
     use HasFactory;
