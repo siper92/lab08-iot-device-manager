@@ -1,10 +1,21 @@
+# ide ignores
 .idea
 .vscode
 .DS_Store
-_env/.database
+# _env ignores
+# database ignores
+_env/.database/*
+# kafka ignores
+_env/.kafka/*
+!_env/.kafka/data/.keep
+!_env/.database/data/.keep
+!_env/.kafka/zookeeper/data/.keep
+!_env/.kafka/zookeeper/logs/.keep
+
+# env dev
+!_env/dev/docker-compose.yaml
 
 docker-compose.yaml
-!_env/dev/docker-compose.yaml
 
 _local/
 node_modules/

@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Device;
-use App\Models\DeviceMeasurement;
-use App\Services\AlertProcessorService;
+use App\Services\MeasureDeviceService;
 use Illuminate\Http\Request;
 
 class DeviceMeasurementController extends Controller
 {
-    protected AlertProcessorService $alertProcessor;
+    protected MeasureDeviceService $measureDeviceService;
 
-    public function __construct(AlertProcessorService $alertProcessor)
+    public function __construct(MeasureDeviceService $measureDeviceService)
     {
-        $this->alertProcessor = $alertProcessor;
+        $this->measureDeviceService = $measureDeviceService;
     }
 
     public function submit($deviceId, Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'measure_type' => 'required|string',
             'f_measure' => 'nullable|numeric',
             's_measure' => 'nullable|string',
@@ -26,19 +24,11 @@ class DeviceMeasurementController extends Controller
             'recorded_at' => 'nullable|date',
         ]);
 
-        $device = Device::findOrFail($deviceId);
-
-        $measurement = DeviceMeasurement::create([
-            'device_id' => $device->id,
-            'measure_type' => $request->measure_type,
-            'f_measure' => $request->f_measure,
-            's_measure' => $request->s_measure,
-            'i_measure' => $request->i_measure,
-            'recorded_at' => $request->recorded_at ?? now(),
-        ]);
-
-        $this->alertProcessor->processMeasurement($measurement);
-
-        return response()->json($measurement, 201);
+        try {
+            $measurement = $this->measureDeviceService->submitMeasurement($deviceId, $validatedData);
+            return response()->json($measurement, 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 }

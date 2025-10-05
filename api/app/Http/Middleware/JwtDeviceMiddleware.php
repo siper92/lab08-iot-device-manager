@@ -32,7 +32,7 @@ class JwtDeviceMiddleware
 
         $deviceId = $request->route('deviceId');
         if ($deviceId && $payload->sub != $deviceId) {
-            return response()->json(['error' => 'Forbidden'], 403);
+            return response()->json(['error' => 'forbidden device...'], 403);
         }
 
         $request->attributes->set('device_id', $payload->sub);

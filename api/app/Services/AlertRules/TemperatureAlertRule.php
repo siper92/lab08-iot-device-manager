@@ -55,6 +55,6 @@ class TemperatureAlertRule implements AlertRule
 
     public function getChannels(): array
     {
-        return [Channel::DATABASE, Channel::EMAIL];
+        return [Channel::DATABASE];
     }
 }

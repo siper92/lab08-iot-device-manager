@@ -57,7 +57,6 @@ class AlertProcessorService
      */
     public function checkAndCreateAlerts(int $deviceId, array $data, ?int $measurementId = null): void
     {
-        // Get all users who currently own this device
         $userDevices = UserDevice::where('device_id', $deviceId)
             ->whereNull('detached_at')
             ->get();

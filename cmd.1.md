@@ -20,6 +20,11 @@ docker exec -it api bash
 docker exec -it api composer install
 ```
 
+## Require composer dependencies
+```bash
+docker exec -it api composer require mateusjunges/laravel-kafka
+```
+
 ## Run migrations and seed the database
 ```bash
 docker exec -it api php artisan migrate:refresh --seed
