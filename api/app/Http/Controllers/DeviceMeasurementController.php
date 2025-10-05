@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\MeasureDeviceService;
+use App\Services\MeasurementsService;
 use Illuminate\Http\Request;
 
 class DeviceMeasurementController extends Controller
 {
-    protected MeasureDeviceService $measureDeviceService;
+    protected MeasurementsService $measureDeviceService;
 
-    public function __construct(MeasureDeviceService $measureDeviceService)
+    public function __construct(MeasurementsService $measureDeviceService)
     {
         $this->measureDeviceService = $measureDeviceService;
     }
@@ -25,8 +25,14 @@ class DeviceMeasurementController extends Controller
         ]);
 
         try {
-            $measurement = $this->measureDeviceService->submitMeasurement($deviceId, $validatedData);
-            return response()->json($measurement, 201);
+            $messageBody = $this->measureDeviceService->processMeasurement($deviceId, $validatedData);
+            \Log::debug('Submitted measurement', ['body' => $messageBody]);
+
+            return response()->json([
+                "success" => true,
+                "timestamp" => now()->toIso8601String(),
+                'message' => 'submitted successfully',
+            ], 202);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
