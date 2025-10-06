@@ -32,7 +32,7 @@ docker-compose exec -it api bash
 When using docker the API is configured to responde to localhost:80/api/<endpoint>, for docker usage se _env/dev. 
 
 ## Extras
- - kafka integration for processing measurements - (allow salability, logs, and more)
+ - kafka integration for processing measurements - (allow scalability (multiple API accepting measurements), logs, and more)
  - JWT auth for all users
  - Flexible alert processing system, that can be extended, uses Interfaces and Services to process alerts.
 
@@ -55,16 +55,16 @@ When using docker the API is configured to responde to localhost:80/api/<endpoin
 - submit measurements to the system
 
 ------------------------------
-[x] POST       admin/devices .......................................... AdminDeviceController@create
-[x] POST       admin/devices/{deviceId}/attach ........................ AdminDeviceController@attach
-[x] DELETE     admin/devices/{deviceId}/detach ........................ AdminDeviceController@detach
-[x] DELETE     admin/devices/{id} ..................................... AdminDeviceController@delete
-[x] POST       admin/login ............................................... AdminAuthController@login
-[x] POST       admin/users .............................................. AdminUserController@create
-[x] DELETE     admin/users/{id} ......................................... AdminUserController@delete
-[X] POST       devices/{deviceId}/measurements .................. DeviceMeasurementController@submit
-[x] POST       login ...................................................... UserAuthController@login
-[X] GET|HEAD   users/{userId}/alerts ........................... UserMeasurementController@getAlerts
-[X] POST       users/{userId}/devices/{deviceId}/attach ................ UserDeviceController@attach
-[X] DELETE     users/{userId}/devices/{deviceId}/detach ................ UserDeviceController@detach
-[X] GET|HEAD   users/{userId}/measurements ............... UserMeasurementController@getMeasurements
+- [x] POST       admin/devices .......................................... AdminDeviceController@create
+- [x] POST       admin/devices/{deviceId}/attach ........................ AdminDeviceController@attach
+- [x] DELETE     admin/devices/{deviceId}/detach ........................ AdminDeviceController@detach
+- [x] DELETE     admin/devices/{id} ..................................... AdminDeviceController@delete
+- [x] POST       admin/login ............................................... AdminAuthController@login
+- [x] POST       admin/users .............................................. AdminUserController@create
+- [x] DELETE     admin/users/{id} ......................................... AdminUserController@delete
+- [X] POST       devices/{deviceId}/measurements .................. DeviceMeasurementController@submit
+- [x] POST       login ...................................................... UserAuthController@login
+- [X] GET|HEAD   users/{userId}/alerts ........................... UserMeasurementController@getAlerts
+- [X] POST       users/{userId}/devices/{deviceId}/attach ................ UserDeviceController@attach
+- [X] DELETE     users/{userId}/devices/{deviceId}/detach ................ UserDeviceController@detach
+- [X] GET|HEAD   users/{userId}/measurements ............... UserMeasurementController@getMeasurements
