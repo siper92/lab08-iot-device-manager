@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Device;
 use App\Models\DeviceMeasurement;
 use App\Models\User;
-use App\Models\UserDevice;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,10 +16,12 @@ class DeviceMeasurementTest extends TestCase
     protected Device $device;
     protected User $user;
 
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->initUsers();
+        $this->disableKafkaProcess();
 
         // Get user token for authenticated requests
         $response = $this->postJson('/login', [
@@ -54,24 +55,11 @@ class DeviceMeasurementTest extends TestCase
                 'i_measure' => 100,
             ]);
 
-        $response->assertStatus(201)
+        $response->assertStatus(202)
             ->assertJsonStructure([
-                'id',
-                'device_id',
-                'measure_type',
-                'f_measure',
-                's_measure',
-                'i_measure',
-                'recorded_at',
-                'created_at',
-                'updated_at',
-            ])
-            ->assertJsonFragment([
-                'device_id' => $this->device->id,
-                'measure_type' => 'temperature',
-                'f_measure' => 25.5,
-                's_measure' => 'normal',
-                'i_measure' => 100,
+                'success',
+                'timestamp',
+                'message'
             ]);
 
         $this->assertDatabaseHas('device_measurements', [
@@ -90,10 +78,11 @@ class DeviceMeasurementTest extends TestCase
                 'measure_type' => 'humidity',
             ]);
 
-        $response->assertStatus(201)
-            ->assertJsonFragment([
-                'device_id' => $this->device->id,
-                'measure_type' => 'humidity',
+        $response->assertStatus(202)
+            ->assertJsonStructure([
+                'success',
+                'timestamp',
+                'message'
             ]);
 
         $this->assertDatabaseHas('device_measurements', [
@@ -116,7 +105,7 @@ class DeviceMeasurementTest extends TestCase
                 'recorded_at' => $recordedAt,
             ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(202);
 
         $this->assertDatabaseHas('device_measurements', [
             'device_id' => $this->device->id,
@@ -200,14 +189,14 @@ class DeviceMeasurementTest extends TestCase
                 'measure_type' => 'temperature',
                 'f_measure' => 25.5,
             ])
-            ->assertStatus(201);
+            ->assertStatus(202);
 
         $this->withHeader('Authorization', 'Bearer ' . $this->deviceToken)
             ->postJson("/devices/{$this->device->id}/measurements", [
                 'measure_type' => 'humidity',
                 'f_measure' => 60.0,
             ])
-            ->assertStatus(201);
+            ->assertStatus(202);
 
         $this->assertEquals(2, DeviceMeasurement::where('device_id', $this->device->id)->count());
     }

@@ -38,7 +38,7 @@ class UserDeviceController extends Controller
             'device_id' => $device->id,
         ]);
 
-        $deviceToken = $this->jwtService->generateToken($device->id, 'device');
+        $deviceToken = $this->jwtService->generateToken($device->id, 'device', ['user_id' => $userId]);
 
         return response()->json([
             'access_token' => $deviceToken,

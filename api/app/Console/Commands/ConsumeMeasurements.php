@@ -12,7 +12,7 @@ use Junges\Kafka\Contracts\ConsumerMessage;
 
 class ConsumeMeasurements extends Command
 {
-    protected $signature = 'kafka:consume {topic=lab08_measurements}';
+    protected $signature = 'kafka:consume {topic='.\ApplicationConstants::KAFKA_MEASUREMENTS_TOPIC.'}';
     protected $description = 'Consume measurements from Kafka topic and store in database';
 
     public function __construct(
@@ -57,7 +57,7 @@ class ConsumeMeasurements extends Command
         } catch (\Exception $e) {
             Log::error("Failed to process Kafka message", [
                 'error' => $e->getMessage(),
-                'message' => $message->getBody(),
+                'message' => $body,
             ]);
             $this->error("Error processing message: " . $e->getMessage());
         }

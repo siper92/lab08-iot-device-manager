@@ -48,6 +48,7 @@ class UserDeviceTest extends TestCase
                 'user_device' => [
                     'user_id',
                     'device_id',
+                    'access_token',
                 ],
             ])
             ->assertJsonFragment([
@@ -60,6 +61,13 @@ class UserDeviceTest extends TestCase
             'device_id' => $device->id,
             'detached_at' => null,
         ]);
+
+        // Verify access_token field exists in database
+        $userDevice = UserDevice::where('user_id', $this->user->id)
+            ->where('device_id', $device->id)
+            ->first();
+        $this->assertNotNull($userDevice->access_token);
+        $this->assertIsString($userDevice->access_token);
     }
 
     public function test_attach_device_returns_valid_jwt_token(): void
@@ -148,10 +156,14 @@ class UserDeviceTest extends TestCase
         ]);
 
         // First attachment
-        UserDevice::create([
+        $userDevice = UserDevice::create([
             'user_id' => $this->user->id,
             'device_id' => $device->id,
         ]);
+
+        // Verify access_token was auto-generated
+        $this->assertNotNull($userDevice->access_token);
+        $this->assertIsString($userDevice->access_token);
 
         // Try to attach again
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->userToken)
@@ -168,10 +180,13 @@ class UserDeviceTest extends TestCase
         /** @var Device $device */
         $device = Device::factory()->create();
 
-        UserDevice::create([
+        $userDevice = UserDevice::create([
             'user_id' => $this->user->id,
             'device_id' => $device->id,
         ]);
+
+        // Verify access_token was auto-generated
+        $this->assertNotNull($userDevice->access_token);
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->userToken)
             ->deleteJson("/users/{$this->user->id}/devices/{$device->id}/detach");
@@ -229,6 +244,9 @@ class UserDeviceTest extends TestCase
             'user_id' => $this->user->id,
             'device_id' => $device->id,
         ]);
+
+        // Verify access_token was auto-generated
+        $this->assertNotNull($userDevice->access_token);
 
         // Detach the device
         $userDevice->detach();

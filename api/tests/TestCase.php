@@ -22,6 +22,11 @@ abstract class TestCase extends BaseTestCase
         config(['app_custom.page_limit' => Pagination::DEFAULT_PER_PAGE]);
     }
 
+    public function disableKafkaProcess(): void
+    {
+        config(['app_custom.use_kafka_for_measurements' => false]);
+    }
+
     public function initUsers(): void
     {
         $this->initUserWithDevices(

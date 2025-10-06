@@ -9,6 +9,7 @@ use App\Models\DeviceMeasurement;
 use App\Models\SystemAdmin;
 use App\Enums\MeasureType;
 use App\Services\AlertProcessorService;
+use App\Services\Tokens\DeviceToken;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -50,6 +51,8 @@ class DatabaseSeeder extends Seeder
             $this->command->info('');
         }
 
+        $jwtService = app('App\Services\JwtService');
+
         // devices per user
         $devicesPerUser = intdiv(self::MAX_DEVICES, self::MAX_USERS);
         for ($i = 0; $i < self::MAX_USERS; $i++) {
@@ -60,7 +63,7 @@ class DatabaseSeeder extends Seeder
                 UserDevice::create([
                     'user_id' => $userId,
                     'device_id' => $deviceId,
-                    'access_token' => "user_{$userId}_device_{$deviceId}",
+                    'access_token' => $jwtService->generateToken($deviceId, "device", ['user_id' => $userId]),
                     'attached_at' => now()->subDays(rand(1, 30)),
                 ]);
             }

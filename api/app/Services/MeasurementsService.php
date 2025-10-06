@@ -15,7 +15,7 @@ class MeasurementsService
         protected AlertProcessorService $alertProcessor
     )
     {
-        $this->useKafka = (env('APP_USE_KAFKA_FOR_MEASUREMENTS', 'false') == 'true');
+        $this->useKafka = config('app_custom.use_kafka', false);
     }
 
     public function processMeasurement(int $deviceId, array $data): array
@@ -74,7 +74,7 @@ class MeasurementsService
 
         $message = new Message(body: $data);
         $producer = Kafka::publish('kafka')
-            ->onTopic('lab08_measurements')
+            ->onTopic(\ApplicationConstants::KAFKA_MEASUREMENTS_TOPIC)
             ->withMessage($message);
 
         $producer->send();
